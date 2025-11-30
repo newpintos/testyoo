@@ -1,6 +1,11 @@
 [build]
-  publish = "."
+  publish = "Documents/xyz/Glo/Global Entreprenuerships/nosei"
   command = "echo 'Static site, no build required'"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [dev]
   port = 8888
