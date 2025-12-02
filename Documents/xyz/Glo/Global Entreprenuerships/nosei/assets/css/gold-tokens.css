@@ -1,0 +1,19 @@
+:root {
+    --gold-primary: #FFC107;
+    --gold-hover: #FFD54F;
+    --gold-glow: rgba(255, 193, 7, 0.5);
+}
+
+.text-gold {
+    color: var(--gold-primary) !important;
+}
+
+.btn-gold-glow {
+    box-shadow: 0 0 15px var(--gold-glow);
+    transition: all 0.3s ease;
+}
+
+.btn-gold-glow:hover {
+    box-shadow: 0 0 25px var(--gold-primary);
+    transform: translateY(-2px);
+}
