@@ -788,26 +788,39 @@
             <!-- project area end -->
 
             <!-- testimonial area start -->
-            <section class="ns-testimonial-area-6 p-relative pt-100 pb-100" style="background-color: #F6F6F6; transition: background-color 0.3s ease;">
+            <section class="ns-testimonial-area-6 p-relative pt-100 pb-100" style="background-color: #F6F6F6 !important; transition: background-color 0.3s ease;">
                 <style>
+                    /* Light mode - ensure black text */
+                    .ns-testimonial-area-6 {
+                        background-color: #F6F6F6 !important;
+                    }
+
                     .ns-testimonial-area-6 .ns-testimonial-content p {
                         color: #000000 !important;
+                        font-style: normal !important;
                     }
 
                     .ns-testimonial-area-6 .ns-testimonial-admin-title {
                         color: #000000 !important;
+                        font-weight: 600 !important;
                     }
 
                     .ns-testimonial-area-6 .ns-testimonial-admin span {
                         color: #666666 !important;
                     }
 
+                    .ns-testimonial-area-6 .ns-testimonial-quote-6 {
+                        opacity: 0.3;
+                    }
+
+                    /* Dark mode */
                     .dark-mode .ns-testimonial-area-6 {
                         background-color: #2a2a2a !important;
                     }
 
                     .dark-mode .ns-testimonial-area-6 .ns-testimonial-content p {
                         color: #cccccc !important;
+                        font-style: normal !important;
                     }
 
                     .dark-mode .ns-testimonial-area-6 .ns-testimonial-admin-title {
