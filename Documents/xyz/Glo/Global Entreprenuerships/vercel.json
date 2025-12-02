@@ -1,13 +1,33 @@
 {
-  "buildCommand": "echo 'Static site deployment from nosei directory'",
-  "outputDirectory": "nosei",
+  "version": 2,
+  "public": false,
+  "builds": [
+    {
+      "src": "nosei/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/nosei/$1"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=0, s-maxage=0, must-revalidate"
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
         }
       ]
     }
