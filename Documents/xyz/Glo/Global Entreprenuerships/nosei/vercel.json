@@ -1,0 +1,15 @@
+{
+  "buildCommand": "echo 'Static site deployment'",
+  "outputDirectory": ".",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=0, stale-while-revalidate=0"
+        }
+      ]
+    }
+  ]
+}
