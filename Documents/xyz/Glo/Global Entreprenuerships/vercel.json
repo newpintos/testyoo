@@ -1,18 +1,9 @@
 {
   "version": 2,
-  "public": false,
-  "builds": [
-    {
-      "src": "nosei/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/nosei/$1"
-    }
-  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "buildCommand": "echo 'Deploying from nosei directory'",
+  "outputDirectory": "nosei",
   "headers": [
     {
       "source": "/(.*)",
@@ -30,6 +21,12 @@
           "value": "0"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ]
 }
