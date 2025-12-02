@@ -901,49 +901,77 @@
             <!-- testimonial area start -->
             <section class="ns-testimonial-area-6 pt-60 p-relative" style="background-color: #FFFFFF; transition: background-color 0.3s ease;">
                 <style>
+                    /* Base testimonial area styling */
                     .ns-testimonial-area-6 {
                         --text-color: #000000;
                     }
-                    .ns-testimonial-area-6 p {
+                    
+                    /* Light Mode - Comprehensive Text Color Rules */
+                    /* Target all paragraph text with multiple selector paths */
+                    .ns-testimonial-area-6 p,
+                    .ns-testimonial-area-6 .ns-testimonial-content p,
+                    .ns-testimonial-content p,
+                    section.ns-testimonial-area-6 p,
+                    .ns-testimonial-area-6 .swiper-slide p {
                         color: #000000 !important;
                     }
-                    .ns-testimonial-area-6 .ns-testimonial-content p {
+                    
+                    /* Target testimonial content wrapper */
+                    .ns-testimonial-area-6 .ns-testimonial-content,
+                    .ns-testimonial-content,
+                    .ns-testimonial-area-6 .swiper-slide .ns-testimonial-content {
                         color: #000000 !important;
                     }
-                    .ns-testimonial-area-6 .ns-testimonial-admin-title {
+                    
+                    /* Target admin title (name) with multiple paths */
+                    .ns-testimonial-area-6 .ns-testimonial-admin-title,
+                    .ns-testimonial-area-6 h4,
+                    .ns-testimonial-area-6 .ns-testimonial-admin h4,
+                    .ns-testimonial-admin-title,
+                    .ns-testimonial-admin h4,
+                    .ns-testimonial-area-6 h4.ns-testimonial-admin-title {
                         color: #000000 !important;
                     }
-                    .ns-testimonial-area-6 h4 {
-                        color: #000000 !important;
-                    }
-                    .ns-testimonial-area-6 .ns-testimonial-admin {
-                        color: #000000 !important;
-                    }
-                    .ns-testimonial-area-6 .ns-testimonial-admin span {
+                    
+                    /* Target admin subtitle (position/title) */
+                    .ns-testimonial-area-6 .ns-testimonial-admin span,
+                    .ns-testimonial-admin span,
+                    .ns-testimonial-area-6 .ns-testimonial-admin > span {
                         color: #333333 !important;
                     }
+                    
+                    /* Target the entire admin section */
+                    .ns-testimonial-area-6 .ns-testimonial-admin,
+                    .ns-testimonial-admin {
+                        color: #000000 !important;
+                    }
+                    
+                    /* Dark Mode Rules */
                     .dark-mode .ns-testimonial-area-6 {
                         background-color: #1a1a1a !important;
                         --text-color: #ffffff;
                     }
-                    .dark-mode .ns-testimonial-area-6 p {
+                    
+                    .dark-mode .ns-testimonial-area-6 p,
+                    .dark-mode .ns-testimonial-area-6 .ns-testimonial-content p,
+                    .dark-mode .ns-testimonial-content p {
                         color: #cccccc !important;
                     }
+                    
                     .dark-mode .ns-testimonial-area-6 .ns-section-title {
                         color: #ffffff !important;
                     }
-                    .dark-mode .ns-testimonial-area-6 .ns-testimonial-content p {
-                        color: #cccccc !important;
-                    }
-                    .dark-mode .ns-testimonial-area-6 .ns-testimonial-admin-title {
+                    
+                    .dark-mode .ns-testimonial-area-6 .ns-testimonial-admin-title,
+                    .dark-mode .ns-testimonial-area-6 h4,
+                    .dark-mode .ns-testimonial-area-6 .ns-testimonial-admin h4 {
                         color: #ffffff !important;
                     }
-                    .dark-mode .ns-testimonial-area-6 h4 {
-                        color: #ffffff !important;
-                    }
+                    
                     .dark-mode .ns-testimonial-area-6 .ns-testimonial-admin {
                         color: #ffffff !important;
                     }
+                    
                     .dark-mode .ns-testimonial-area-6 .ns-testimonial-admin span {
                         color: #999999 !important;
                     }
