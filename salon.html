@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumière Beauty Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+  <style>
+    /* ===== VARIABLES ===== */
+    :root {
+      --rose-gold: #C9956C;
+      --cream: #FAF0E6;
+      --champagne: #F7E7CE;
+      --burgundy: #4A0E2A;
+      --burgundy-deep: #2E0819;
+      --blush: #F4C2C2;
+      --charcoal: #2D2D2D;
+      --whatsapp: #25D366;
+      --glass-bg: rgba(255,255,255,0.06);
+      --glass-border: rgba(201,149,108,0.2);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--burgundy-deep);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1.6rem 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.4s ease;
+    }
+
+    .navbar.scrolled {
+      background: rgba(46,8,25,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 1rem 5%;
+      border-bottom: 1px solid rgba(201,149,108,0.12);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: var(--rose-gold);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--cream); }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: rgba(247,231,206,0.85);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover { color: var(--rose-gold); }
+
+    .nav-cta {
+      border: 1px solid var(--rose-gold) !important;
+      color: var(--rose-gold) !important;
+      padding: 0.45rem 1.4rem;
+      transition: all 0.3s ease !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--rose-gold) !important;
+      color: var(--burgundy-deep) !important;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--champagne);
+      transition: all 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 70% at 15% 50%, rgba(201,149,108,0.17) 0%, transparent 58%),
+        radial-gradient(ellipse 60% 80% at 85% 25%, rgba(244,194,194,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 60% at 50% 110%, rgba(74,14,42,0.9) 0%, transparent 60%),
+        linear-gradient(150deg, var(--burgundy-deep) 0%, #3a0b1f 55%, var(--burgundy) 100%);
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 70px,
+        rgba(201,149,108,0.025) 70px,
+        rgba(201,149,108,0.025) 71px
+      );
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+    }
+
+    .orb-1 {
+      width: 500px; height: 500px;
+      top: -150px; right: -80px;
+      background: radial-gradient(circle, rgba(201,149,108,0.18) 0%, transparent 65%);
+      animation: floatA 9s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 350px; height: 350px;
+      bottom: 5%; left: -100px;
+      background: radial-gradient(circle, rgba(244,194,194,0.13) 0%, transparent 65%);
+      animation: floatB 11s ease-in-out infinite;
+    }
+
+    @keyframes floatA { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-25px,30px)} }
+    @keyframes floatB { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-18px)} }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--rose-gold);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.8rem, 9vw, 7.5rem);
+      font-weight: 300;
+      line-height: 1.02;
+      color: var(--cream);
+      margin-bottom: 1.2rem;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: fadeUp 1s ease forwards 0.6s;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--rose-gold);
+    }
+
+    .hero-tagline {
+      font-size: 0.85rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUpSoft 0.9s ease forwards 0.85s;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUpSoft {
+      to { opacity: 0.65; transform: translateY(0); }
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.9s ease forwards 1.05s;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--rose-gold);
+      color: var(--burgundy-deep);
+      padding: 0.9rem 2.6rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s ease;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--cream);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+
+    .btn-primary:hover::after { transform: scaleX(1); }
+
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-ghost {
+      display: inline-block;
+      background: transparent;
+      color: rgba(247,231,206,0.75);
+      padding: 0.9rem 2.6rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid rgba(247,231,206,0.25);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--rose-gold);
+      color: var(--rose-gold);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.8s;
+    }
+
+    .scroll-cue span {
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(247,231,206,0.45);
+    }
+
+    .scroll-cue-line {
+      width: 1px;
+      height: 45px;
+      background: linear-gradient(to bottom, var(--rose-gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite 2.5s;
+    }
+
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes scrollPulse {
+      0%,100% { transform: scaleY(1); opacity: 0.5; }
+      50% { transform: scaleY(0.6); opacity: 1; }
+    }
+
+    /* ===== SECTION COMMONS ===== */
+    section { padding: 6rem 5%; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4.5rem;
+    }
+
+    .section-label {
+      display: block;
+      font-size: 0.65rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--rose-gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.08;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--rose-gold);
+    }
+
+    .section-rule {
+      width: 55px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--rose-gold), transparent);
+      margin: 1.6rem auto;
+    }
+
+    .section-sub {
+      font-size: 0.9rem;
+      color: rgba(250,240,230,0.55);
+      line-height: 1.85;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Reveal on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(38px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .d1 { transition-delay: 0.08s; }
+    .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; }
+    .d4 { transition-delay: 0.32s; }
+    .d5 { transition-delay: 0.4s; }
+    .d6 { transition-delay: 0.48s; }
+
+    /* ===== SERVICES ===== */
+    #services {
+      background: linear-gradient(180deg, var(--burgundy-deep) 0%, #1c0410 50%, var(--burgundy-deep) 100%);
+      position: relative;
+    }
+
+    #services::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,149,108,0.5), transparent);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 2.6rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s ease, background 0.4s ease, border-color 0.4s ease;
+      cursor: pointer;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--rose-gold), var(--blush));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+
+    .service-card:hover {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(201,149,108,0.4);
+      transform: translateY(-5px);
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 44px;
+      height: 44px;
+      color: var(--rose-gold);
+      margin-bottom: 1.6rem;
+    }
+
+    .service-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.42rem;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 0.7rem;
+    }
+
+    .service-card p {
+      font-size: 0.855rem;
+      color: rgba(250,240,230,0.55);
+      line-height: 1.75;
+      margin-bottom: 1.6rem;
+    }
+
+    .service-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--rose-gold);
+    }
+
+    .service-price span {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(201,149,108,0.55);
+    }
+
+    /* ===== ABOUT ===== */
+    #about {
+      background: var(--burgundy-deep);
+    }
+
+    .about-wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-frame {
+      position: relative;
+      width: 100%;
+      padding-bottom: 118%;
+      overflow: hidden;
+    }
+
+    .about-img {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(140deg, #8B3A5A 0%, #4A0E2A 35%, #C9956C 100%);
+    }
+
+    .about-img::after {
+      content: 'L';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14rem;
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(250,240,230,0.07);
+    }
+
+    .about-accent {
+      position: absolute;
+      bottom: -18px;
+      right: -18px;
+      width: 42%;
+      height: 42%;
+      border: 1px solid rgba(201,149,108,0.28);
+      pointer-events: none;
+    }
+
+    .about-text .section-title,
+    .about-text .section-label,
+    .about-text .section-rule {
+      text-align: left;
+    }
+
+    .about-text .section-rule { margin: 1.5rem 0; }
+
+    .about-text p {
+      font-size: 0.92rem;
+      color: rgba(250,240,230,0.6);
+      line-height: 1.9;
+      margin-bottom: 1.4rem;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(201,149,108,0.12);
+    }
+
+    .stat h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--rose-gold);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat p {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(250,240,230,0.35);
+      line-height: 1.45;
+      margin-bottom: 0;
+    }
+
+    /* ===== GALLERY ===== */
+    #gallery {
+      background: linear-gradient(180deg, var(--burgundy-deep) 0%, #180310 100%);
+      position: relative;
+    }
+
+    #gallery::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,149,108,0.5), transparent);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.9rem;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .g-item {
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .g-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .g-item:nth-child(4) { grid-column: span 2; }
+    .g-item:nth-child(7) { grid-column: span 2; }
+
+    .g-thumb {
+      width: 100%;
+      padding-bottom: 100%;
+      position: relative;
+      transition: transform 0.6s ease;
+    }
+
+    .g-item:nth-child(1) .g-thumb { padding-bottom: 50%; }
+    .g-item:nth-child(4) .g-thumb { padding-bottom: 50%; }
+    .g-item:nth-child(7) .g-thumb { padding-bottom: 50%; }
+
+    .g-fill {
+      position: absolute;
+      inset: 0;
+    }
+
+    .g-item:nth-child(1) .g-fill { background: linear-gradient(145deg, #8B3A5A 0%, #C9956C 45%, #F4C2C2 100%); }
+    .g-item:nth-child(2) .g-fill { background: linear-gradient(145deg, #4A0E2A 0%, #8B3A5A 100%); }
+    .g-item:nth-child(3) .g-fill { background: linear-gradient(145deg, #C9956C 0%, #F7E7CE 100%); }
+    .g-item:nth-child(4) .g-fill { background: linear-gradient(145deg, #2E0819 0%, #C9956C 55%, #FAF0E6 100%); }
+    .g-item:nth-child(5) .g-fill { background: linear-gradient(145deg, #F4C2C2 0%, #8B3A5A 100%); }
+    .g-item:nth-child(6) .g-fill { background: linear-gradient(145deg, #4A0E2A 0%, #F4C2C2 100%); }
+    .g-item:nth-child(7) .g-fill { background: linear-gradient(145deg, #C9956C 0%, #4A0E2A 40%, #F4C2C2 100%); }
+    .g-item:nth-child(8) .g-fill { background: linear-gradient(145deg, #2E0819 0%, #8B3A5A 100%); }
+
+    .g-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(46,8,25,0.62);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .g-item:hover .g-overlay { opacity: 1; }
+    .g-item:hover .g-thumb { transform: scale(1.04); }
+
+    .g-overlay span {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--cream);
+      letter-spacing: 0.1em;
+    }
+
+    /* ===== TESTIMONIALS ===== */
+    #testimonials {
+      background: var(--burgundy-deep);
+    }
+
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .testi-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 2.4rem 2rem;
+      position: relative;
+    }
+
+    .testi-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -8px;
+      left: 1.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5.5rem;
+      color: var(--rose-gold);
+      opacity: 0.35;
+      line-height: 1;
+    }
+
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 1.2rem;
+    }
+
+    .star {
+      color: var(--rose-gold);
+      font-size: 0.85rem;
+    }
+
+    .testi-text {
+      font-size: 0.875rem;
+      color: rgba(250,240,230,0.7);
+      line-height: 1.88;
+      font-style: italic;
+      margin-bottom: 1.6rem;
+    }
+
+    .testi-author {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .author-av {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose-gold), var(--blush));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--burgundy-deep);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .author-info h5 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--cream);
+    }
+
+    .author-info span {
+      font-size: 0.72rem;
+      color: rgba(250,240,230,0.38);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== CONTACT ===== */
+    #contact {
+      background: linear-gradient(180deg, var(--burgundy-deep) 0%, #0d0208 100%);
+      position: relative;
+    }
+
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,149,108,0.5), transparent);
+    }
+
+    .contact-wrap {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 4.5rem;
+    }
+
+    .contact-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--cream);
+      letter-spacing: 0.04em;
+      margin-bottom: 2rem;
+    }
+
+    .c-detail {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1.6rem;
+    }
+
+    .c-icon {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(201,149,108,0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .c-icon svg {
+      width: 15px;
+      height: 15px;
+      color: var(--rose-gold);
+    }
+
+    .c-detail h6 {
+      font-size: 0.63rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(201,149,108,0.7);
+      margin-bottom: 0.22rem;
+    }
+
+    .c-detail p,
+    .c-detail a {
+      font-size: 0.875rem;
+      color: rgba(250,240,230,0.65);
+      line-height: 1.65;
+      text-decoration: none;
+    }
+
+    .c-detail a:hover { color: var(--rose-gold); }
+
+    .hours {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: 1rem;
+      row-gap: 0.3rem;
+      font-size: 0.83rem;
+    }
+
+    .hours .day { color: rgba(250,240,230,0.4); }
+    .hours .time { color: rgba(250,240,230,0.65); }
+
+    .map-box {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1.8rem;
+      text-align: center;
+    }
+
+    .map-box svg {
+      width: 36px;
+      height: 36px;
+      color: var(--rose-gold);
+      opacity: 0.45;
+      margin-bottom: 0.8rem;
+    }
+
+    .map-box p {
+      font-size: 0.78rem;
+      color: rgba(250,240,230,0.35);
+      letter-spacing: 0.06em;
+    }
+
+    .form-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 2rem;
+      letter-spacing: 0.04em;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(201,149,108,0.65);
+      margin-bottom: 0.45rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,149,108,0.18);
+      color: var(--cream);
+      padding: 0.72rem 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.84rem;
+      outline: none;
+      transition: border-color 0.3s;
+      -webkit-appearance: none;
+    }
+
+    .form-group select option { background: var(--burgundy); }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--rose-gold); }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(250,240,230,0.2); }
+
+    .form-group textarea { resize: none; height: 88px; }
+
+    .form-full { grid-column: span 2; }
+
+    .btn-form {
+      width: 100%;
+      margin-top: 0.6rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #080106;
+      padding: 2.6rem 5%;
+      text-align: center;
+      border-top: 1px solid rgba(201,149,108,0.08);
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.45rem;
+      font-weight: 500;
+      color: var(--rose-gold);
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+    }
+
+    .social-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.4rem;
+    }
+
+    .social-ico {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(201,149,108,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .social-ico:hover {
+      border-color: var(--rose-gold);
+      background: rgba(201,149,108,0.08);
+    }
+
+    .social-ico svg {
+      width: 13px;
+      height: 13px;
+      color: rgba(250,240,230,0.45);
+      transition: color 0.3s;
+    }
+
+    .social-ico:hover svg { color: var(--rose-gold); }
+
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      list-style: none;
+      flex-wrap: wrap;
+      margin-bottom: 1.4rem;
+    }
+
+    .footer-nav a {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(250,240,230,0.3);
+      text-decoration: none;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    .footer-nav a:hover { color: var(--rose-gold); }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: rgba(250,240,230,0.18);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== WHATSAPP BUTTON ===== */
+    .wa-btn {
+      width: 56px;
+      height: 56px;
+      background: var(--whatsapp);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      box-shadow: 0 4px 22px rgba(37,211,102,0.32);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .wa-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(37,211,102,0.5);
+    }
+
+    .wa-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: white;
+      position: relative;
+      z-index: 1;
+    }
+
+    .wa-btn::before,
+    .wa-btn::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(37,211,102,0.42);
+      animation: waRing 2.8s ease-out infinite;
+    }
+
+    .wa-btn::after { animation-delay: 1.4s; }
+
+    @keyframes waRing {
+      0%   { width: 56px; height: 56px; opacity: 0.75; }
+      100% { width: 104px; height: 104px; opacity: 0; }
+    }
+
+    /* ===== FLOAT STACK ===== */
+    .float-stack {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      align-items: flex-end;
+    }
+
+    .float-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+
+    .float-tip {
+      background: rgba(46,8,25,0.96);
+      border: 1px solid rgba(201,149,108,0.2);
+      color: var(--cream);
+      padding: 0.45rem 0.9rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .float-item:hover .float-tip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Call AI button */
+    .call-btn {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--rose-gold), #b8845a);
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 22px rgba(201,149,108,0.38);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .call-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(201,149,108,0.58);
+    }
+
+    .call-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+      position: relative;
+      z-index: 1;
+    }
+
+    .call-btn::before,
+    .call-btn::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid rgba(201,149,108,0.38);
+      animation: callRing 2.8s ease-out infinite;
+    }
+
+    .call-btn::after { animation-delay: 1.4s; }
+
+    @keyframes callRing {
+      0%   { width: 56px; height: 56px; opacity: 0.7; }
+      100% { width: 106px; height: 106px; opacity: 0; }
+    }
+
+    /* ===== AI MODAL ===== */
+    .ai-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(20,4,14,0.78);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .ai-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .ai-modal {
+      background: rgba(46,8,25,0.92);
+      border: 1px solid rgba(201,149,108,0.22);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      width: min(480px, 92vw);
+      position: relative;
+      padding: 2.4rem 2rem 2rem;
+      transform: translateY(22px) scale(0.97);
+      transition: transform 0.38s ease;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+
+    .ai-overlay.open .ai-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .ai-modal-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, transparent, var(--rose-gold), transparent);
+    }
+
+    .ai-modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .ai-modal-label {
+      display: block;
+      font-size: 0.62rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--rose-gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .ai-modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+
+    .ai-modal-close {
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(201,149,108,0.25);
+      background: transparent;
+      color: rgba(250,240,230,0.5);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+      margin-top: 2px;
+    }
+
+    .ai-modal-close:hover {
+      border-color: var(--rose-gold);
+      color: var(--rose-gold);
+    }
+
+    .ai-modal-sub {
+      font-size: 0.82rem;
+      color: rgba(250,240,230,0.48);
+      line-height: 1.7;
+      margin-bottom: 1.8rem;
+    }
+
+    .ai-widget-wrap {
+      display: flex;
+      justify-content: center;
+      min-height: 120px;
+    }
+
+    .ai-widget-wrap elevenlabs-convai {
+      width: 100%;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .testi-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+      .g-item:nth-child(7) { grid-column: span 1; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 4rem 1.5rem; }
+
+      .navbar { padding: 1.2rem 5%; }
+      .navbar.scrolled { padding: 0.85rem 5%; }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(46,8,25,0.97);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        backdrop-filter: blur(20px);
+        z-index: 999;
+      }
+
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 0.95rem; }
+      .nav-toggle { display: flex; }
+
+      .hero-cta { flex-direction: column; align-items: center; }
+
+      .services-grid { grid-template-columns: 1fr; }
+
+      .about-wrap { grid-template-columns: 1fr; gap: 3rem; }
+
+      .about-text .section-title,
+      .about-text .section-label { text-align: center; }
+
+      .about-text .section-rule { margin: 1.4rem auto; }
+
+      .about-frame { max-width: 380px; margin: 0 auto; }
+
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .g-item:nth-child(1),
+      .g-item:nth-child(4),
+      .g-item:nth-child(7) { grid-column: span 1; }
+
+      .g-item .g-thumb { padding-bottom: 100% !important; }
+
+      .testi-grid { grid-template-columns: 1fr; }
+
+      .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
+
+      .form-row { grid-template-columns: 1fr; }
+      .form-full { grid-column: span 1; }
+
+      .about-stats { grid-template-columns: repeat(3, 1fr); }
+
+      footer { padding: 2rem 1.5rem; }
+      .footer-nav { gap: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a class="nav-logo" href="#hero">Lumière <span>Beauty</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact" class="nav-cta">Book Now</a></li>
+    </ul>
+    <div class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Est. 2018 &nbsp;·&nbsp; Paris-Inspired Beauty</p>
+      <h1 class="hero-title">Lumière<br><em>Beauty Studio</em></h1>
+      <p class="hero-tagline">Where Beauty Meets Artistry</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary"><span>Book Appointment</span></a>
+        <a href="#services" class="btn-ghost">Explore Services</a>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-cue-line"></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-header reveal">
+      <span class="section-label">Our Expertise</span>
+      <h2 class="section-title">Crafted <em>Services</em></h2>
+      <div class="section-rule"></div>
+      <p class="section-sub">Each service is a carefully curated experience, tailored to celebrate your unique beauty.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal d1">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M24 6C24 6 13 13 13 25C13 31 17.5 35 24 37C30.5 35 35 31 35 25C35 13 24 6 24 6Z"/>
+          <path d="M18 21L24 17L30 21"/>
+          <circle cx="24" cy="29" r="3"/>
+        </svg>
+        <h3>Haircut &amp; Styling</h3>
+        <p>Precision cuts and transformative styles by our master stylists, tailored to your unique face shape and lifestyle.</p>
+        <div class="service-price">From $85 <span>/ Session</span></div>
+      </div>
+      <div class="service-card reveal d2">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="24" cy="24" r="12"/>
+          <path d="M24 12V8M24 40V36M12 24H8M40 24H36"/>
+          <path d="M16.3 16.3L13.5 13.5M34.5 34.5L31.7 31.7M31.7 16.3L34.5 13.5M13.5 34.5L16.3 31.7"/>
+        </svg>
+        <h3>Color &amp; Highlights</h3>
+        <p>From sun-kissed balayage to bold transformations — our colorists create living, breathing color that moves with you.</p>
+        <div class="service-price">From $120 <span>/ Session</span></div>
+      </div>
+      <div class="service-card reveal d3">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <ellipse cx="24" cy="22" rx="12" ry="14"/>
+          <path d="M16 36C16 36 14 42 24 42C34 42 32 36 32 36"/>
+          <path d="M19 18C19 18 21.5 20.5 24 18C26.5 15.5 29 18 29 18"/>
+        </svg>
+        <h3>Facial Treatments</h3>
+        <p>Restorative facials using premium botanicals that unveil your skin's natural radiance and restore luminous vitality.</p>
+        <div class="service-price">From $95 <span>/ Session</span></div>
+      </div>
+      <div class="service-card reveal d4">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 32L16 23L20 27L24 17L28 23L32 19L36 32"/>
+          <line x1="10" y1="37" x2="38" y2="37"/>
+          <line x1="14" y1="37" x2="14" y2="41"/>
+          <line x1="20" y1="37" x2="20" y2="41"/>
+          <line x1="28" y1="37" x2="28" y2="41"/>
+          <line x1="34" y1="37" x2="34" y2="41"/>
+        </svg>
+        <h3>Nail Care</h3>
+        <p>Artistic nail design from classic elegance to avant-garde statements, using only the finest non-toxic formulas.</p>
+        <div class="service-price">From $45 <span>/ Session</span></div>
+      </div>
+      <div class="service-card reveal d5">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M24 8L28 17H37L30 22.5L32.5 31.5L24 26L15.5 31.5L18 22.5L11 17H20L24 8Z"/>
+        </svg>
+        <h3>Bridal Packages</h3>
+        <p>Complete bridal beauty experiences — from the first consultation to the final look on your most magical day.</p>
+        <div class="service-price">From $350 <span>/ Package</span></div>
+      </div>
+      <div class="service-card reveal d6">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 20C12 15.5 16 11 24 11C32 11 36 15.5 36 20"/>
+          <path d="M8 29C8 24.5 12.5 22 24 22C35.5 22 40 24.5 40 29"/>
+          <path d="M12 38C12 33.5 16.5 31 24 31C31.5 31 36 33.5 36 38"/>
+          <circle cx="24" cy="7" r="3"/>
+        </svg>
+        <h3>Massage &amp; Spa</h3>
+        <p>Immersive body treatments and therapeutic massages designed to restore balance, ease tension, and renew the spirit.</p>
+        <div class="service-price">From $110 <span>/ Session</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-wrap">
+      <div class="about-visual reveal">
+        <div class="about-frame">
+          <div class="about-img"></div>
+        </div>
+        <div class="about-accent"></div>
+      </div>
+      <div class="about-text">
+        <span class="section-label reveal">Our Story</span>
+        <h2 class="section-title reveal">Beauty as <em>Philosophy</em></h2>
+        <div class="section-rule reveal"></div>
+        <p class="reveal">Born from a passion for artistry and a deep reverence for the transformative power of beauty, Lumière was founded with a singular vision: to create a sanctuary where every guest feels seen, celebrated, and truly radiant.</p>
+        <p class="reveal">Our team of master stylists and beauty artisans bring decades of international training — from Paris to New York — to every appointment. We believe beauty is not about conforming to standards, but about amplifying what makes you uniquely luminous.</p>
+        <div class="about-stats reveal">
+          <div class="stat"><h4>8+</h4><p>Years of Excellence</p></div>
+          <div class="stat"><h4>2K+</h4><p>Happy Clients</p></div>
+          <div class="stat"><h4>15</h4><p>Master Artisans</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="section-header reveal">
+      <span class="section-label">Portfolio</span>
+      <h2 class="section-title">The Art of <em>Beauty</em></h2>
+      <div class="section-rule"></div>
+      <p class="section-sub">A glimpse into our world of transformations and timeless creations.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item reveal d1"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Hair Artistry</span></div></div></div>
+      <div class="g-item reveal d2"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Color Magic</span></div></div></div>
+      <div class="g-item reveal d3"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Nail Design</span></div></div></div>
+      <div class="g-item reveal d4"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Bridal Beauty</span></div></div></div>
+      <div class="g-item reveal d5"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Facial Glow</span></div></div></div>
+      <div class="g-item reveal d6"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Spa Ritual</span></div></div></div>
+      <div class="g-item reveal d1"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Styling Art</span></div></div></div>
+      <div class="g-item reveal d2"><div class="g-thumb"><div class="g-fill"></div><div class="g-overlay"><span>Beauty Story</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="section-header reveal">
+      <span class="section-label">Client Stories</span>
+      <h2 class="section-title">Voices of <em>Radiance</em></h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal d1">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testi-text">"Walking into Lumière feels like stepping into a world where time slows and beauty becomes art. My stylist understood my vision perfectly — and delivered something even more extraordinary."</p>
+        <div class="testi-author">
+          <div class="author-av">S</div>
+          <div class="author-info"><h5>Sophia Laurent</h5><span>Color &amp; Styling Client</span></div>
+        </div>
+      </div>
+      <div class="testi-card reveal d2">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testi-text">"For my wedding day, I needed perfection. Lumière delivered beyond imagination. Every detail — from my hair to my nails — was flawless. I felt like the truest version of myself."</p>
+        <div class="testi-author">
+          <div class="author-av">A</div>
+          <div class="author-info"><h5>Amara Chen</h5><span>Bridal Package Client</span></div>
+        </div>
+      </div>
+      <div class="testi-card reveal d3">
+        <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="testi-text">"The facial treatment here is unlike anything I've experienced. My skin glowed for weeks afterward. The team is incredibly knowledgeable and the atmosphere is pure serenity."</p>
+        <div class="testi-author">
+          <div class="author-av">M</div>
+          <div class="author-info"><h5>Marie Dubois</h5><span>Facial &amp; Spa Client</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <span class="section-label">Connect With Us</span>
+      <h2 class="section-title">Begin Your <em>Journey</em></h2>
+      <div class="section-rule"></div>
+      <p class="section-sub">Reserve your experience and let us craft something beautiful, just for you.</p>
+    </div>
+    <div class="contact-wrap">
+      <div class="reveal">
+        <div class="contact-info">
+          <h3>Find Us</h3>
+          <div class="c-detail">
+            <div class="c-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+              </svg>
+            </div>
+            <div>
+              <h6>Address</h6>
+              <p>42 Rue de la Beauté, Suite 101<br>New York, NY 10001</p>
+            </div>
+          </div>
+          <div class="c-detail">
+            <div class="c-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.19 12.84 19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+              </svg>
+            </div>
+            <div>
+              <h6>Phone</h6>
+              <a href="tel:+12125550148">+1 (212) 555-0148</a>
+            </div>
+          </div>
+          <div class="c-detail">
+            <div class="c-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <h6>Hours</h6>
+              <div class="hours">
+                <span class="day">Mon – Fri</span><span class="time">9:00 AM – 8:00 PM</span>
+                <span class="day">Saturday</span><span class="time">9:00 AM – 7:00 PM</span>
+                <span class="day">Sunday</span><span class="time">10:00 AM – 5:00 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="map-box">
+          <div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+            <p>42 Rue de la Beauté, New York</p>
+            <p style="font-size:0.68rem;margin-top:0.3rem;opacity:0.5;">[ Google Maps Integration ]</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <p class="form-title">Reserve Your Experience</p>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Sophia"></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Laurent"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Email</label><input type="email" placeholder="hello@email.com"></div>
+            <div class="form-group"><label>Phone</label><input type="tel" placeholder="+1 (555) 000-0000"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Service</label>
+              <select>
+                <option value="">Select a service</option>
+                <option>Haircut &amp; Styling</option>
+                <option>Color &amp; Highlights</option>
+                <option>Facial Treatments</option>
+                <option>Nail Care</option>
+                <option>Bridal Package</option>
+                <option>Massage &amp; Spa</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Preferred Date</label><input type="date"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group form-full">
+              <label>Notes</label>
+              <textarea placeholder="Any special requests or notes for your stylist..."></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary btn-form"><span>Request Appointment</span></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Lumière Beauty Studio</div>
+    <div class="social-row">
+      <a href="#" class="social-ico" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <a href="#" class="social-ico" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+        </svg>
+      </a>
+      <a href="#" class="social-ico" aria-label="TikTok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/>
+        </svg>
+      </a>
+    </div>
+    <ul class="footer-nav">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+    </ul>
+    <p class="footer-copy">© 2024 Lumière Beauty Studio. All rights reserved.</p>
+  </footer>
+
+  <!-- FLOATING BUTTONS -->
+  <div class="float-stack">
+    <!-- AI Voice Receptionist -->
+    <div class="float-item">
+      <div class="float-tip">Talk to our AI Receptionist</div>
+      <button class="call-btn" onclick="openAIModal()" aria-label="Talk to AI Receptionist">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93H2c0 4.42 3.17 8.08 7.39 8.8V20H7v2h10v-2h-2.39C18.83 19.08 22 15.42 22 11h-2c0 4.08-3.06 7.44-7 7.93V16h-2z"/>
+        </svg>
+      </button>
+    </div>
+    <!-- WhatsApp -->
+    <div class="float-item">
+      <div class="float-tip">Chat with us on WhatsApp</div>
+      <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- AI RECEPTIONIST MODAL -->
+  <div class="ai-overlay" id="aiOverlay" onclick="handleOverlayClick(event)">
+    <div class="ai-modal">
+      <div class="ai-modal-top"></div>
+      <div class="ai-modal-head">
+        <div>
+          <span class="ai-modal-label">AI Voice Assistant</span>
+          <h3 class="ai-modal-title">Front Desk Receptionist</h3>
+        </div>
+        <button class="ai-modal-close" onclick="closeAIModal()" aria-label="Close">✕</button>
+      </div>
+      <p class="ai-modal-sub">Ask about our services, pricing, or book an appointment — just speak naturally.</p>
+      <div class="ai-widget-wrap">
+        <elevenlabs-convai agent-id="agent_9001kky4emeyfdvb4cfm06g3axz7"></elevenlabs-convai>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // AI Modal
+    function openAIModal() {
+      document.getElementById('aiOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAIModal() {
+      document.getElementById('aiOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('aiOverlay')) closeAIModal();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAIModal();
+    });
+
+    // Navbar scroll
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile nav toggle
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const ro = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => ro.observe(el));
+
+    // Form submit
+    function handleSubmit(e) {
+      e.preventDefault();
+      const span = e.target.querySelector('button span');
+      const btn = span.closest('button');
+      span.textContent = 'Request Sent ✓';
+      btn.style.background = 'var(--burgundy)';
+      btn.style.color = 'var(--rose-gold)';
+      setTimeout(() => {
+        span.textContent = 'Request Appointment';
+        btn.style.background = '';
+        btn.style.color = '';
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
