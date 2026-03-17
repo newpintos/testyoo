@@ -2,7 +2,7 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "framework": null,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/$1" }
+  "redirects": [
+    { "source": "/", "destination": "/salon.html", "permanent": false }
   ]
 }
